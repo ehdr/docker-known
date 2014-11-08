@@ -1,0 +1,28 @@
+datavolume:
+  image: ubuntu:trusty
+  volumes:
+    - /var/lib/mysql
+    - /var/www/known/uploads
+
+mysql:
+  image: mysql
+  volumes_from:
+    - datavolume
+  environment:
+    - MYSQL_DATABASE=known
+    - MYSQL_USER=known
+    - MYSQL_PASSWORD=knownpassword
+    - MYSQL_ROOT_PASSWORD=rootpassword
+
+known:
+  image: ehdr/known
+  volumes_from:
+    - datavolume
+  environment:
+    - MYSQL_DATABASE=known
+    - MYSQL_USER=known
+    - MYSQL_PASSWORD=knownpassword
+  ports:
+    - "80:80"
+  links:
+    - "mysql:mysql"

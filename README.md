@@ -1,17 +1,19 @@
 docker-known
-=========
+============
 
 Run the [Known][1] social publishing platform in a [Docker][2] container!
 
-This image uses the 0.6.4 ("Dunham") release of Known. It has been designed
-to run one process per container, i.e.:
+This unofficial image uses the 0.6.4 ("Dunham") release of Known. It has been
+designed to run one process per container, i.e.:
 
 - one container used as [data volume][3]
 - MySQL database running in one container (based on the [standard MySQL image][4])
 - Apache running the Known PHP application in a container based on this image
 
 How to run it
------------
+-------------
+You can run it [the easy way](#how-to-run-it-using-fig) or the hard(er) way.
+Let's start with the hard(er) way.
 
 ### First, create a data volume container
 The data volume container will contain the MySQL database files and the Known
@@ -51,7 +53,44 @@ Notes:
   exactly `mysql`
 - the current version of Known (0.6.4) only supports running on port 80
 
-### Finally, set up Known!
+How to run it using Fig
+-----------------------
+[Fig][6] offers a convenient way to start all the containers automatically.
+Once you have Fig installed, just put something like the following in
+a `fig.yml` file and run `fig up` (but promise to pick good passwords
+first!):
+
+    datavolume:
+      image: ubuntu:trusty
+      volumes:
+        - /var/lib/mysql
+        - /var/www/known/uploads
+    
+    mysql:
+      image: mysql
+      volumes_from:
+        - datavolume
+      environment:
+        - MYSQL_DATABASE=known
+        - MYSQL_USER=known
+        - MYSQL_PASSWORD=knownpassword
+        - MYSQL_ROOT_PASSWORD=rootpassword
+    
+    known:
+      image: ehdr/known
+      volumes_from:
+        - datavolume
+      environment:
+        - MYSQL_DATABASE=known
+        - MYSQL_USER=known
+        - MYSQL_PASSWORD=knownpassword
+      ports:
+        - "80:80"
+      links:
+        - "mysql:mysql"
+
+Finally, set up Known!
+----------------------
 Enter the Known site address into your browser, and follow the instructions.
 
 If you are running docker locally on your machine, you should be able to
@@ -61,8 +100,16 @@ you can find by running
 
     boot2docker ip
 
+How to build it
+---------------
+To build the image locally, simply
+
+    docker build -t ehdr/known .
+
+
 [1]: https://withknown.com/
 [2]: https://www.docker.com/
 [3]: http://docs.docker.com/userguide/dockervolumes/
 [4]: https://github.com/docker-library/mysql
 [5]: http://boot2docker.io/
+[6]: http://www.fig.sh/
