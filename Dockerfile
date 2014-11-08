@@ -1,5 +1,7 @@
 FROM ubuntu:trusty
 
+MAINTAINER Eric Hansander <eric@erichansander.com>
+
 RUN apt-get update
 
 # Install Apache and extensions
@@ -27,6 +29,25 @@ RUN apt-get -yq  --no-install-recommends install \
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
 	&& ln -s ../mods-available/rewrite.load .
+
+# Install Known
+RUN apt-get -yq  --no-install-recommends install \
+		curl \
+		mysql-client
+RUN mkdir -p /var/www/known \
+	&& curl -SL http://assets.withknown.com/releases/known-0.6.4.tgz \
+		| tar -xzC /var/www/known/
+
+# Configure Known
+COPY config.ini /var/www/known/
+RUN cd /var/www/known \
+	&& mv htaccess-2.4.dist .htaccess
+RUN chown -R root:www-data /var/www/known/
+
+COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
+RUN cd /etc/apache2/sites-enabled \
+	&& rm -f 000-default.conf \
+	&& ln -s ../sites-available/known.conf .
 
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/*
