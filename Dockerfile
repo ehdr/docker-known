@@ -41,11 +41,13 @@ RUN mkdir -p /var/www/known \
 # Configure Known
 COPY config.ini /var/www/known/
 RUN cd /var/www/known \
-	&& mv htaccess-2.4.dist .htaccess
-RUN chown -R root:www-data /var/www/known/
+	&& chmod 644 config.ini \
+	&& mv htaccess-2.4.dist .htaccess \
+	&& chown -R root:www-data /var/www/known/
 
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 RUN cd /etc/apache2/sites-enabled \
+	&& chmod 644 ../sites-available/known.conf \
 	&& rm -f 000-default.conf \
 	&& ln -s ../sites-available/known.conf .
 
