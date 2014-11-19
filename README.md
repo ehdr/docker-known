@@ -21,7 +21,7 @@ uploads directory (for uploaded photos, etc.):
 
     docker run --name datavolume \
         -v /var/lib/mysql \
-        -v /var/www/known/uploads \
+        -v /known/uploads \
         -d ubuntu:trusty true
 
 ### Second, start the MySQL database server
@@ -64,7 +64,7 @@ first!):
       image: ubuntu:trusty
       volumes:
         - /var/lib/mysql
-        - /var/www/known/uploads
+        - /known/uploads
     
     mysql:
       image: mysql

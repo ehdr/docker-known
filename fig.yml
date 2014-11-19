@@ -2,7 +2,7 @@ datavolume:
   image: ubuntu:trusty
   volumes:
     - /var/lib/mysql
-    - /var/www/known/uploads
+    - /known/uploads
 
 mysql:
   image: mysql

@@ -27,8 +27,8 @@ echo "dbpass = '$MYSQL_PASSWORD'" >> /var/www/known/config.ini
 
 # Fix permissions for the uploads directory, since it was mounted by
 # --volumes-from when the container was run.
-chown -R root:www-data /var/www/known/uploads
-chmod -R 775 /var/www/known/uploads
+chown -R root:www-data /known/uploads
+chmod -R 775 /known/uploads
 
 # The MySQL server is slow to start the very first time you run the mysql
 # container, so we have to wait.
