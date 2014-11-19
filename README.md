@@ -3,12 +3,17 @@ docker-known
 
 Run the [Known][1] social publishing platform in a [Docker][2] container!
 
-This unofficial image uses the 0.6.4 ("Dunham") release of Known. It has been
+This unofficial image uses the 0.6.4 ("Dunham") release of Known, and has been
 designed to run one process per container, i.e.:
 
-- one container used as [data volume][3]
+- one container used as [data volume][3] for settings, posts, etc.
 - MySQL database running in one container (based on the [standard MySQL image][4])
 - Apache running the Known PHP application in a container based on this image
+
+**Note:** This Docker image has known (and most likely also unknown) problems
+(see the [known issues][7]). If you want to deploy Known publicly, you should have
+a look at the [official installation instructions][8]. And of course, please help
+[report issues][7] as you find them!
 
 How to run it
 -------------
@@ -25,7 +30,6 @@ uploads directory (for uploaded photos, etc.):
         -d ubuntu:trusty true
 
 ### Second, start the MySQL database server
-
 Here you need to decide on passwords for the MySQL root user and for the MySQL
 user account for the Known app:
 
@@ -37,7 +41,6 @@ user account for the Known app:
         -d mysql
 
 ### Third, start the actual Known app
-
 Again, you need to pass in the MySQL information you decided on in the
 previous step:
 
@@ -113,3 +116,5 @@ To build the image locally, simply
 [4]: https://github.com/docker-library/mysql
 [5]: http://boot2docker.io/
 [6]: http://www.fig.sh/
+[7]: https://github.com/ehdr/docker-known/issues
+[8]: http://docs.withknown.com/en/latest/install/index.html
