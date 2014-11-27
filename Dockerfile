@@ -35,7 +35,7 @@ RUN apt-get -yq  --no-install-recommends install \
 		curl \
 		mysql-client
 RUN mkdir -p /var/www/known \
-	&& curl -SL http://assets.withknown.com/releases/known-0.6.4.tgz \
+	&& curl -SL http://assets.withknown.com/releases/known-0.6.5.tgz \
 		| tar -xzC /var/www/known/
 
 # Configure Known
