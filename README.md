@@ -3,7 +3,7 @@ docker-known
 
 Run the [Known][1] social publishing platform in a [Docker][2] container!
 
-This unofficial image uses the 0.6.4 ("Dunham") release of Known, and has been
+This unofficial image uses the 0.6.5 ("Dunham") release of Known, and has been
 designed to run one process per container, i.e.:
 
 - one container used as [data volume][3] for settings, posts, etc.
@@ -54,7 +54,7 @@ Notes:
 
 - the `--link` alias for the MySQL container (the part after the '`:`') must be
   exactly `mysql`
-- the current version of Known (0.6.4) only supports running on port 80
+- the current version of Known (0.6.5) only supports running on port 80
 
 How to run it using Fig
 -----------------------
